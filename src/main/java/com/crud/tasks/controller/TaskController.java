@@ -23,7 +23,7 @@ public class TaskController {
 
     @GetMapping("getTasks")
     public List<Task> getTasks() {
-        return new ArrayList<>();
+        return taskMapper.mapToTaskList(dbService.getAllTasks());
     }
 
     @GetMapping("getTask")
@@ -32,8 +32,8 @@ public class TaskController {
     }
 
     @DeleteMapping("deleteTask")
-    public void deleteTask(Long taskId) {
-        //do nothing
+    public void deleteTask(@RequestParam Long taskId) {
+        dbService.deleteTaskById(taskId);
     }
 
     @PutMapping("updateTask")
