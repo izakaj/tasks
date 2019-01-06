@@ -10,6 +10,9 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import sun.java2d.pipe.SpanShapeRenderer;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+
 @Service
 public class SimpleEmailService {
 
@@ -24,20 +27,49 @@ public class SimpleEmailService {
             SimpleMailMessage mailMessage = createMailMessage(mail);
             javaMailSender.send(mailMessage);
             LOGGER.info("Email has been sent.");
-        } catch (MailException e) {
+        } catch (MailException | AddressException e) {
             LOGGER.error("Failed to process email sending: ", e.getMessage(), e);
         }
     }
 
-    private SimpleMailMessage createMailMessage(final Mail mail) {
+    private SimpleMailMessage createMailMessage(final Mail mail) throws AddressException {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(mail.getMailTo());
-        if(mail.getToCc() != null) {
+
+        if(validateEmail(mail.getMailTo())) {
+            mailMessage.setTo(mail.getMailTo());
+            LOGGER.info("TO mail is correct");
+        } else {
+            LOGGER.error("TO mail is incorrect.");
+            throw new AddressException("TO - mail is incorrect.");
+        }
+
+        if(mail.getToCc() == null || mail.getToCc() == "") {
+            LOGGER.info("No CC mail provided.");
+        } else if (validateEmail(mail.getToCc())){
             mailMessage.setCc(mail.getToCc());
             LOGGER.info("CC mail has been set!");
+        } else {
+            LOGGER.error("CC mail is incorrect.");
+            throw new AddressException("CC mail is incorrect");
         }
+
         mailMessage.setSubject(mail.getSubject());
         mailMessage.setText(mail.getMessage());
+
+        LOGGER.info("Created mail:\nTo: " + mailMessage.getTo());
+
         return mailMessage;
+    }
+
+    private boolean validateEmail(String email) throws AddressException {
+        boolean isValid = false;
+        try {
+            InternetAddress internetAddress = new InternetAddress(email);
+            internetAddress.validate();
+            isValid = true;
+        } catch (AddressException e) {
+            System.out.println("The address " + email + " is incorrect.");
+        }
+        return isValid;
     }
 }
