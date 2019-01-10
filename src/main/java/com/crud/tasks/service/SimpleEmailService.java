@@ -61,7 +61,7 @@ public class SimpleEmailService {
         return mailMessage;
     }
 
-    private boolean validateEmail(String email) throws AddressException {
+    private boolean validateEmail(String email) {
         boolean isValid = false;
         try {
             InternetAddress internetAddress = new InternetAddress(email);
