@@ -5,7 +5,7 @@ echo There were errors - breaking work
 goto fail
 
 :rungettasks
-start "" http://localhost:8080/crud/v1/task/getTasks
+start "" http://localhost:8080/v1/tasks
 
 :fail
 echo.
