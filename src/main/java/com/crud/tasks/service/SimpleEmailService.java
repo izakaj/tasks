@@ -35,22 +35,16 @@ public class SimpleEmailService {
     private SimpleMailMessage createMailMessage(final Mail mail) throws AddressException {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
-        if(validateEmail(mail.getMailTo())) {
-            mailMessage.setTo(mail.getMailTo());
-            LOGGER.info("TO mail is correct");
-        } else {
-            LOGGER.error("TO mail is incorrect.");
-            throw new AddressException("TO - mail is incorrect.");
-        }
+        validateEmail(mail.getMailTo());
+        mailMessage.setTo(mail.getMailTo());
+        LOGGER.info("TO mail is correct");
 
-        if(mail.getToCc() == null || mail.getToCc() == "") {
+        if(mail.getToCc() == null || mail.getToCc().equals("")) {
             LOGGER.info("No CC mail provided.");
-        } else if (validateEmail(mail.getToCc())){
+        } else {
+            validateEmail(mail.getToCc());
             mailMessage.setCc(mail.getToCc());
             LOGGER.info("CC mail has been set!");
-        } else {
-            LOGGER.error("CC mail is incorrect.");
-            throw new AddressException("CC mail is incorrect");
         }
 
         mailMessage.setSubject(mail.getSubject());
@@ -61,15 +55,9 @@ public class SimpleEmailService {
         return mailMessage;
     }
 
-    private boolean validateEmail(String email) {
-        boolean isValid = false;
-        try {
-            InternetAddress internetAddress = new InternetAddress(email);
-            internetAddress.validate();
-            isValid = true;
-        } catch (AddressException e) {
-            System.out.println("The address " + email + " is incorrect.");
-        }
-        return isValid;
+    private void validateEmail(String email) throws AddressException {
+
+        InternetAddress internetAddress = new InternetAddress(email);
+        internetAddress.validate();
     }
 }
