@@ -105,13 +105,14 @@ public class TrelloMapperTestSuite {
     @Test
     public void testMapToCard() {
         //Given
-        TrelloCardDto trelloCardDto = new TrelloCardDto("Random name", "The description", "top", "555");
+        TrelloCardDto trelloCardDto = new TrelloCardDto("Random name2", "The description2", "top",
+                "555");
 
         //When
         TrelloCard trelloCard = trelloMapper.mapToCard(trelloCardDto);
 
         //Then
-        assertEquals("Random name", trelloCard.getName());
-        assertEquals("The description", trelloCard.getDescription());
+        assertEquals("Random name2", trelloCard.getName());
+        assertEquals("The description2", trelloCard.getDescription());
     }
 }
