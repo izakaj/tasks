@@ -22,7 +22,7 @@ public class TaskController {
 
     @GetMapping
     public List<Task> getTasks() {
-        return taskMapper.mapToTaskList(dbService.getAllTasks());
+        return dbService.getAllTasks();
     }
 
     @GetMapping("/{id}")
@@ -45,7 +45,7 @@ public class TaskController {
     }
 
     @PostMapping
-    public void createTask(@RequestBody TaskDto taskDto) {
-        dbService.saveTask(taskMapper.mapToTask(taskDto));
+    public Task createTask(@RequestBody TaskDto taskDto) {
+        return dbService.saveTask(taskMapper.mapToTask(taskDto));
     }
 }
