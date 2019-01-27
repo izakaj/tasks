@@ -13,8 +13,10 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.any;
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyList;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -98,4 +100,39 @@ public class TrelloFacadeTest {
         });
     }
 
+    @Test
+    public void shouldCreateTrelloCard() {
+        //Given
+        TrelloCardDto trelloCardDto = new TrelloCardDto(
+                "Test",
+                "Test description",
+                "top",
+                "1"
+        );
+        TrelloCard trelloCard = new TrelloCard(
+                "Test",
+                "Test description",
+                "top",
+                "1"
+        );
+        CreatedTrelloCardDto createdTrelloCardDto = new CreatedTrelloCardDto(
+                "323",
+                "Test",
+                "http://test.com"
+        );
+
+        when(trelloMapper.mapToCard(trelloCardDto)).thenReturn(trelloCard);
+        when(trelloMapper.mapToCardDto(trelloCard)).thenReturn(trelloCardDto);
+        doNothing().when(trelloValidator).validateCard(trelloCard);
+        when(trelloService.createTrelloCard(trelloCardDto))
+                .thenReturn(createdTrelloCardDto);
+
+        //When
+        CreatedTrelloCardDto theCreatedCard = trelloFacade.createTrelloCard(trelloCardDto);
+
+        //Then
+        assertEquals("323", theCreatedCard.getId());
+        assertEquals("Test", theCreatedCard.getName());
+        assertEquals("http://test.com", theCreatedCard.getShortUrl());
+    }
 }
