@@ -13,39 +13,39 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v1/tasks")
+@RequestMapping("/v1")
 @CrossOrigin(origins = "*")
 public class TaskController {
 
     private final DbService dbService;
     private final TaskMapper taskMapper;
 
-    @GetMapping
+    @GetMapping("/tasks")
     public List<Task> getTasks() {
         return dbService.getAllTasks();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/tasks/{id}")
     public TaskDto getTask(@PathVariable("id") Long taskId) throws TaskNotFoundException {
         Task task = dbService.getTaskById(taskId).orElseThrow(TaskNotFoundException::new);
         return taskMapper.mapToTaskDto(task);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/tasks/{id}")
     public void deleteTask(@PathVariable("id") Long taskId) {
         dbService.deleteTaskById(taskId);
     }
 
     @Transactional
-    @PutMapping("/{id}")
+    @PutMapping("/tasks/{id}")
     public TaskDto updateTask(@PathVariable("id") Long taskId, @RequestBody TaskDto taskDto) {
         Task task = taskMapper.mapToTask(taskDto);
         dbService.saveTask(task);
         return taskMapper.mapToTaskDto(task);
     }
 
-    @PostMapping
-    public Task createTask(@RequestBody TaskDto taskDto) {
+    @PostMapping("/tasks")
+    public Task createTask(/*@RequestBody*/ TaskDto taskDto) {
         return dbService.saveTask(taskMapper.mapToTask(taskDto));
     }
 }
