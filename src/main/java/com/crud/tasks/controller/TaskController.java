@@ -45,7 +45,7 @@ public class TaskController {
     }
 
     @PostMapping("/tasks")
-    public Task createTask(/*@RequestBody*/ TaskDto taskDto) {
+    public Task createTask(@RequestBody TaskDto taskDto) {
         return dbService.saveTask(taskMapper.mapToTask(taskDto));
     }
 }
