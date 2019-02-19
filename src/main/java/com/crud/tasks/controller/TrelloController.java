@@ -20,8 +20,6 @@ public class TrelloController {
     private TrelloFacade trelloFacade;
 
     @Autowired
-    TrelloClient trelloClient;
-    @Autowired
     TrelloService trelloService;
     /*
     @GetMapping("/boards")
@@ -33,7 +31,6 @@ public class TrelloController {
     @GetMapping("/boards")
     public List<TrelloBoardDto> getTrelloBoards() {
 
-        //List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
         List<TrelloBoardDto> trelloBoards = trelloService.fetchTrelloBoards();
         return trelloBoards;
     }
