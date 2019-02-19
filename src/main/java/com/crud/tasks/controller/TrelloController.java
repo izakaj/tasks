@@ -3,6 +3,7 @@ package com.crud.tasks.controller;
 import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
+import com.crud.tasks.service.TrelloService;
 import com.crud.tasks.trello.client.TrelloClient;
 import com.crud.tasks.trello.facade.TrelloFacade;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ public class TrelloController {
 
     @Autowired
     TrelloClient trelloClient;
+    @Autowired
+    TrelloService trelloService;
     /*
     @GetMapping("/boards")
     public List<TrelloBoardDto> getTrelloBoards() {
@@ -30,7 +33,8 @@ public class TrelloController {
     @GetMapping("/boards")
     public List<TrelloBoardDto> getTrelloBoards() {
 
-        List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
+        //List<TrelloBoardDto> trelloBoards = trelloClient.getTrelloBoards();
+        List<TrelloBoardDto> trelloBoards = trelloService.fetchTrelloBoards();
         return trelloBoards;
     }
         /*
