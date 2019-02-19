@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class TrelloMapperTestSuite {
 
+
     @Autowired
     private TrelloMapper trelloMapper;
 
@@ -115,4 +116,5 @@ public class TrelloMapperTestSuite {
         assertEquals("Random name2", trelloCard.getName());
         assertEquals("The description2", trelloCard.getDescription());
     }
+
 }

@@ -79,4 +79,5 @@ public class TaskMapperTestSuite {
             assertEquals("task_content", task.getContent());
         });
     }
+
 }
