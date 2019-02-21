@@ -1,5 +1,5 @@
 package com.crud.tasks.controller;
-
+/*
 import com.crud.tasks.domain.CreatedTrelloCardDto;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
@@ -104,4 +104,4 @@ public class TrelloControllerTest {
                 .andExpect(jsonPath("$.name", is("Test")))
                 .andExpect(jsonPath("$.shortUrl", is("http://test.com")));
     }
-}
+}*/
