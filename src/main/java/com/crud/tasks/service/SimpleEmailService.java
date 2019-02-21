@@ -45,6 +45,7 @@ public class SimpleEmailService {
         try {
             MimeMessagePreparator mimeMessage = createMimeMessage(mail);
             //SimpleMailMessage mailMessage = createMailMessage(mail);
+            LOGGER.info("Mime Message created.");
             javaMailSender.send(mimeMessage);
             LOGGER.info("Email has been sent.");
         } catch (MailException e) {
