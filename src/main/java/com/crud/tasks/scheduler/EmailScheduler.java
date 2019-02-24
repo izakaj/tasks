@@ -26,12 +26,14 @@ public class EmailScheduler {
     @Scheduled(cron = "0 0 10 * * *")
     //@Scheduled(fixedDelay=10000)
     public void sendInformationEmail() {
-        long size = 2; //taskRepository.count();
-        simpleEmailService.send(new Mail(
+        long size = taskRepository.count();
+        simpleEmailService.sendInformationEmail(new Mail(
            adminConfig.getAdminMail(),
            null,
             SUBJECT,
             "Currently in database you got: " + size + (size == 1 ? " task." : " tasks.")
-        ));
+        ),
+                size
+        );
     }
 }
